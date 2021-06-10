@@ -31,6 +31,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
     <script src="SY68exogyraBeds.js"></script>
     <script src="somersetParish.js"></script>
+    <script src="barringtonHill.js"></script>
     <script src="faultsUK.js"></script>
     <script src="dykesUK.js"></script>
     <link rel="stylesheet" href="https://labs.os.uk/public/os-api-branding/v0.2.0/os-api-branding.css" />
@@ -459,6 +460,17 @@
         "opacity": 0.2,
         "fillOpacity": 0		
 	});
+	var nnr = L.geoJSON(barringtonHill,{
+        onEachFeature: function(feature, layer) {
+            layer.bindPopup(
+                feature.properties.Name
+            );
+        },		
+        "color": "#00FF00",
+        "weight": 2,
+        "opacity": 1.0,
+        "fillOpacity": 0		
+	});
 	var faults = L.geoJSON(faultsUK,{
         "color": "#000000",
         "weight": 1,
@@ -566,6 +578,7 @@
 		layers: [terraindtm, surfacedsm],
 		fullscreenControl: true,
 	});
+	nnr.addTo(map);
     map.createPane('ontop');
     map.createPane('onverytop');
     map.getPane('ontop').style.zIndex = 450;
@@ -685,6 +698,7 @@
 		"<span title = 'OS Water'>Water</span>": gl1,
 		"<span title = 'Parish outlines'>Parish</span>": parish,
 		"<span title = 'Sites'>Site</span>": site,
+		"<span title = 'National Nature Reserve'>NNR</span>": nnr,
 		"<span title = 'Drawing tools'>Draw</span>": drawnItems
 	};
     var allMapLayers = { 
@@ -708,6 +722,7 @@
 		'geolin': geolin,
 		'parish': parish,
 		'site': site,
+		'nnr': nnr,
 	    'drawnItems': drawnItems
 	};
     var osmGeocoder = new L.Control.OSMGeocoder();
